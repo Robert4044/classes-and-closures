@@ -2,12 +2,9 @@
   Once you complete a problem, refresh ./classes.html in your browser and check to see if the problem's test(s) are passing.
   Passed tests will be indicated by a green circle.
   Failed tests will be indicated by a red X.
-
   You can refresh the page at any time to re-run all the tests.
-
   Classes are a tool for building similar objects over and over again.
   They are a construct that helps your organize your code.
-
   Let's work with some employees at a company.
   You work for Widget Co. They have hundreds of employees.
 */
@@ -25,7 +22,6 @@
     - makeWidget
       - This returns a string equal to the employees first name + last name + the word Widget
       - Example: "Dave Smith Widget"
-
   Call your class Employee and receive all the data in the constructor in the order listed above.
 */
 
@@ -41,6 +37,10 @@ class Employee {
     }
 }
 
+const employee = new Employee('Dave', 'Smith', 'dave@test.com', 75);
+console.log(employee);
+console.log(employee.makeWidget());
+
 ////////// PROBLEM 2 //////////
 
 /*
@@ -52,7 +52,6 @@ class Employee {
       - Accepts a new employee as a parameter and pushes it to their list of reports.
     - fire (index)
       - Fire removes employees from their list of reports at the given index
-
   Call your new class Manager
 */
 
@@ -69,6 +68,14 @@ class Manager extends Employee {
     }
 }
 
+const manager = new Manager('Jen', 'Clark', 'jen@jen', 23);
+console.log(manager);
+console.log(manager.hire('John'));
+console.log(manager.hire('Jim'));
+console.log(manager.hire('Sarah'));
+console.log(manager.fire(1));
+console.log(manager.fire(0));
+
 ////////// PROBLEM 3 //////////
 
 /*
@@ -76,7 +83,6 @@ class Manager extends Employee {
   create a class ProgressiveManager that extends Manager.  A Progressive Manager has all of the same properties as a manager with the following additional properties:
     - title - default 'Not a manager'
     - bonus - default 0
-
   When employees are hired or fired, the manager's title should be updated based on the number of reports.
     0 reports : Not a manager
     1-3 reports : Barely Manager
@@ -84,33 +90,63 @@ class Manager extends Employee {
     11-50 reports : Manager
     51-100 reports : Manager Plus
     101+ reports : Bestest Manager
-
   Everytime they fire an employee they get $100 added to their bonus.
-
   Call your new class ProgressiveManager
 */
 
-// TODO: No idea
 class ProgressiveManager extends Manager {
-    constructor(firstName, lastName, email, age, reports) {
-        super(firstName, lastName, email, age, reports);
+    constructor(firstName, lastName, email, age) {
+        super(firstName, lastName, email, age);
         this.title = 'Not a manager';
         this.bonus = 0;
     }
+    hire(employee) {
+        super.hire(employee);
+        if (this.reports.length === 0) {
+            this.title = 'Not a manager';
+        } else if (this.reports.length >= 1 && this.reports.length <= 3) {
+            this.title = 'Barely Manager';
+        } else if (this.reports.length >= 4 && this.reports.length <= 10) {
+            this.title = 'Mostly Manager';
+        } else if (this.reports.length >= 11 && this.reports.length <= 50) {
+            this.title = 'Manager';
+        } else if (this.reports.length >= 50 && this.reports.length <= 100) {
+            this.title = 'Manager Plus';
+        } else {
+            this.title = 'Bestest Manager';
+        }
+        return this.title;
+    }
+    fire(index) {
+        super.fire(index);
+        this.bonus = this.bonus + 100;
+        return this.bonus;
+    }
 }
+
+const progressiveManager = new ProgressiveManager(
+    'Jen',
+    'Williams',
+    'jen@test',
+    56
+);
+console.log(progressiveManager);
+console.log(progressiveManager.hire('Sam'));
+console.log(progressiveManager.hire('John'));
+console.log(progressiveManager.hire('steve'));
+console.log(progressiveManager.hire('Sus'));
+console.log(progressiveManager.fire(1));
 
 ////////// PROBLEM 4 - Black Diamond //////////
 
 /*
   Widget Co has a factory that makes widgets.
   Factories have Machines.
-
   Make a Machine class that takes in no parameters
   A Machine has the following properties:
     - widgets_made_count - default 0
     - wear_and_tear_count - default 0
     - needs_reboot - default false
-
   A Machine has the following methods:
     - makeWidgets
         - This function takes in a number and increases widgets_made_count by that amount
@@ -122,4 +158,24 @@ class ProgressiveManager extends Manager {
         - The anonymous function should decrease wear_and_tear_count by 10, and set needs_reboot to false
 */
 
-//Code Here
+// TODO: figure out 1 for every 50
+
+class Machine {
+    constructor() {
+        this.widgets_made_count = 0;
+        this.wear_and_tear_count = 0;
+        this.needs_reboot = false;
+    }
+    makeWidgets(num) {
+        return (this.widgets_made_count = num);
+    }
+    fixMachine() {
+        return (this.needs_reboot = true);
+    }
+    reboot() {
+        return function () {
+            this.wear_and_tear_count = this.wear_and_tear_count - 10;
+            this.needs_reboot = false;
+        };
+    }
+}

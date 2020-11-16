@@ -177,7 +177,14 @@ function secretNumber() {
     var secret = 143;
 
     return {
-        // Code here
+        addToSecret: num => {
+            secret += num;
+            return secret;
+        },
+        takeAwayFromSecret: num => {
+            secret -= num;
+            return secret;
+        },
     };
 }
 

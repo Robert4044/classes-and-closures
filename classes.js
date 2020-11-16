@@ -167,13 +167,17 @@ class Machine {
         this.needs_reboot = false;
     }
     makeWidgets(num) {
-        return (this.widgets_made_count = this.widgets_made_count + num);
+        this.widgets_made_count = this.widgets_made_count + num;
+        if (this.widgets_made_count % 50 === 0) {
+            this.wear_and_tear_count = this.widgets_made_count / 50;
+        }
+        return this.widgets_made_count;
     }
     fixMachine() {
         this.needs_reboot = true;
     }
     reboot() {
-        return function () {
+        return () => {
             this.wear_and_tear_count = this.wear_and_tear_count - 10;
             this.needs_reboot = false;
         };

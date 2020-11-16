@@ -167,10 +167,10 @@ class Machine {
         this.needs_reboot = false;
     }
     makeWidgets(num) {
-        return (this.widgets_made_count = num);
+        return (this.widgets_made_count = this.widgets_made_count + num);
     }
     fixMachine() {
-        return (this.needs_reboot = true);
+        this.needs_reboot = true;
     }
     reboot() {
         return function () {
@@ -179,3 +179,7 @@ class Machine {
         };
     }
 }
+const machine = new Machine();
+console.log(machine.makeWidgets(15));
+console.log(machine.makeWidgets(25));
+console.log(machine.makeWidgets(10));
